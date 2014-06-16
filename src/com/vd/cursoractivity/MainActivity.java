@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
 	};
 	String mSelectionClause = null;
 	String[] mSelectionArgs = null;
-	String mSortOrder = null;
+	String mSortOrder = Contacts.DISPLAY_NAME;
 	
 	String[] mColumns =
 		{
