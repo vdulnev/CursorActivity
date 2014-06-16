@@ -18,39 +18,35 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.os.Build;
+import android.provider.ContactsContract.Contacts;
 import android.provider.UserDictionary;
 
 public class MainActivity extends Activity {
 	
 	Cursor mCursor;
-	Uri mUri = UserDictionary.Words.CONTENT_URI;
+	Uri mUri = Contacts.CONTENT_URI;
 	String[] mProjection = {
-			UserDictionary.Words._ID,
-			UserDictionary.Words.WORD,
-			UserDictionary.Words.LOCALE
+			Contacts._ID,
+			Contacts.DISPLAY_NAME,
+			Contacts.DISPLAY_NAME_SOURCE
 	};
 	String mSelectionClause = null;
 	String[] mSelectionArgs = null;
 	String mSortOrder = null;
 	
-	String[] mWordListColumns =
+	String[] mColumns =
 		{
-		    UserDictionary.Words.WORD,   // Contract class constant containing the word column name
-		    UserDictionary.Words.LOCALE  // Contract class constant containing the locale column name
+			Contacts.DISPLAY_NAME,
+			Contacts.DISPLAY_NAME_SOURCE
 		};
 	// Defines a list of View IDs that will receive the Cursor columns for each row
-	int[] mWordListItems = { android.R.id.text1, android.R.id.text2};
+	int[] mItems = { android.R.id.text1, android.R.id.text2};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-//		if (savedInstanceState == null) {
-//			getFragmentManager().beginTransaction()
-//					.add(R.id.container, new PlaceholderFragment()).commit();
-//		}
-		
 		ContentResolver lResolver = getContentResolver();
 		mCursor = lResolver.query(mUri, mProjection, mSelectionClause, mSelectionArgs, mSortOrder, null);
 		// Now create a new list adapter bound to the cursor.
@@ -59,8 +55,8 @@ public class MainActivity extends Activity {
 	    		getApplicationContext(), // Context.
 	            android.R.layout.two_line_list_item,  // Specify the row template to use (here, two columns bound to the two retrieved cursor rows).
 	            mCursor,                                              // Pass in the cursor to bind to.
-	            mWordListColumns,           // Array of cursor columns to bind to.
-	            mWordListItems,
+	            mColumns,           // Array of cursor columns to bind to.
+	            mItems,
 	            0);  // Parallel array of which template objects to bind to those columns.
 
 	    ListView lListView = (ListView) findViewById(R.id.listView1);
