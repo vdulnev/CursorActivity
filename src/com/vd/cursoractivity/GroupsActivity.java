@@ -5,39 +5,38 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract.Contacts;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.provider.ContactsContract;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-public class MainActivity extends Activity {
-	
+public class GroupsActivity extends Activity {
+
 	Cursor mCursor;
-	Uri mUri = Contacts.CONTENT_URI;
+	Uri mUri = ContactsContract.Groups.CONTENT_URI;
 	String[] mProjection = {
-			Contacts._ID,
-			Contacts.DISPLAY_NAME,
-			Contacts.DISPLAY_NAME_SOURCE
+			ContactsContract.Groups._ID,
+			ContactsContract.Groups.TITLE,
+			ContactsContract.Groups.ACCOUNT_NAME
 	};
 	String mSelectionClause = null;
 	String[] mSelectionArgs = null;
-	String mSortOrder = Contacts.DISPLAY_NAME;
+	String mSortOrder = ContactsContract.Groups.TITLE;
 	
 	String[] mColumns =
 		{
-			Contacts.DISPLAY_NAME,
-			Contacts.DISPLAY_NAME_SOURCE
+			ContactsContract.Groups.TITLE,
+			ContactsContract.Groups.ACCOUNT_NAME
 		};
 	// Defines a list of View IDs that will receive the Cursor columns for each row
 	int[] mItems = { android.R.id.text1, android.R.id.text2};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-
+		setContentView(R.layout.activity_groups);
+		
 		ContentResolver lResolver = getContentResolver();
 		mCursor = lResolver.query(mUri, mProjection, mSelectionClause, mSelectionArgs, mSortOrder, null);
 		// Now create a new list adapter bound to the cursor.
@@ -52,44 +51,7 @@ public class MainActivity extends Activity {
 
 	    ListView lListView = (ListView) findViewById(R.id.listViewGroups);
 	    // Bind to our new adapter.
-	    lListView.setAdapter(adapter);
+	    lListView.setAdapter(adapter);		
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-//	/**
-//	 * A placeholder fragment containing a simple view.
-//	 */
-//	public static class PlaceholderFragment extends Fragment {
-//
-//		public PlaceholderFragment() {
-//		}
-//
-//		@Override
-//		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//				Bundle savedInstanceState) {
-//			View rootView = inflater.inflate(R.layout.fragment_main, container,
-//					false);
-//			return rootView;
-//		}
-//	}
 
 }
