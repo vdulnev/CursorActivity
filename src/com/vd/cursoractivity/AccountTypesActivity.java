@@ -1,23 +1,21 @@
 package com.vd.cursoractivity;
 
-import java.util.Collection;
 import java.util.TreeSet;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-public class AccountsActivity extends ListActivity {
+public class AccountTypesActivity extends ListActivity {
+	public static String ACCOUNT_TYPE = "com.vd.cursoractivity.account_type";
 	TreeSet<String> mAccounts;
 	Cursor mCursor;
 	Uri mUri = ContactsContract.RawContacts.CONTENT_URI;
@@ -51,7 +49,6 @@ public class AccountsActivity extends ListActivity {
 				mAccounts.add(mCursor.getString(mCursor.getColumnIndex(ContactsContract.RawContacts.ACCOUNT_TYPE)));
 			}
 		}
-		mCursor.close();
 		
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
 		adapter.addAll(mAccounts);
@@ -62,7 +59,10 @@ public class AccountsActivity extends ListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
+		String lAccount = (String)l.getAdapter().getItem(position);
+		Intent intent = new Intent(this, AccountNamesActivity.class);
+		intent.putExtra(ACCOUNT_TYPE, lAccount);
+		startActivity(intent);
 	}
 
 }

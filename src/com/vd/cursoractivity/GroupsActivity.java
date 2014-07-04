@@ -1,6 +1,5 @@
 package com.vd.cursoractivity;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -14,31 +13,33 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 public class GroupsActivity extends ListActivity {
-
+	public static final String GROUP_ID = "com.vd.cursoractivity.group_id";
 	Cursor mCursor;
-	Uri mUri = ContactsContract.RawContacts.CONTENT_URI;
+	Uri mUri = ContactsContract.Groups.CONTENT_URI;
 	String[] mProjection = {
-			ContactsContract.Contacts._ID,
-			ContactsContract.Contacts.DISPLAY_NAME,
-			ContactsContract.Groups.SOURCE_ID
+			ContactsContract.Groups._ID,
+			ContactsContract.Groups.ACCOUNT_TYPE,
+			ContactsContract.Groups.TITLE
 	};
-	String mSelectionClause = null;
-	String[] mSelectionArgs = null;
-	String mSortOrder = ContactsContract.Groups.SOURCE_ID + "," + ContactsContract.Groups.TITLE;
+	String mSelectionClause = ContactsContract.Groups.ACCOUNT_TYPE + " = ? AND " + ContactsContract.Groups.ACCOUNT_NAME +  " = ?";
+	String[] mSelectionArgs = {"", ""};
+	String mSortOrder = ContactsContract.Groups.TITLE;
 	
 	String[] mColumns =
 		{
 			ContactsContract.Groups.TITLE,
-			ContactsContract.Groups._ID
+			ContactsContract.Groups.ACCOUNT_TYPE
 		};
 	// Defines a list of View IDs that will receive the Cursor columns for each row
 	int[] mItems = { android.R.id.text1, android.R.id.text2};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.activity_groups);
+		
+		Intent intent = getIntent();
+		mSelectionArgs[0] = intent.getStringExtra(AccountTypesActivity.ACCOUNT_TYPE);
+		mSelectionArgs[1] = intent.getStringExtra(AccountNamesActivity.ACCOUNT_NAME);
 		
 		ContentResolver lResolver = getContentResolver();
 		mCursor = lResolver.query(mUri, mProjection, mSelectionClause, mSelectionArgs, mSortOrder, null);
@@ -61,11 +62,11 @@ public class GroupsActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Intent intent = new Intent(this, ContactsActivity.class);
-		if (mCursor.move(position)){
-			intent.putExtra("EXTRA_GROUP", mCursor.getString(mCursor.getColumnIndex(ContactsContract.Groups.TITLE)));
-			intent.putExtra("EXTRA_ACCOUNT", mCursor.getString(mCursor.getColumnIndex(ContactsContract.Groups.SOURCE_ID)));
+		if (mCursor.moveToPosition(position)){
+			String lID = mCursor.getString(mCursor.getColumnIndex(ContactsContract.Groups._ID));
+			intent.putExtra(GROUP_ID, lID);
+			//intent.putExtra("EXTRA_ACCOUNT", mCursor.getString(mCursor.getColumnIndex(ContactsContract.Groups.ACCOUNT_TYPE)));
 		}
 		startActivity(intent);
 	}
-
 }

@@ -2,5 +2,7 @@
 + Change data source to contacts
 + Order by name
 + Activity for groups
-+ Activity for accounts
++ Activity for providers
+Activity for accounts of providers
 Open groups for account
+RawContact.getTypeAsString - localization

@@ -1,6 +1,8 @@
 package com.vd.cursoractivity;
 
-import android.app.Activity;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import android.app.ListActivity;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -8,59 +10,76 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.Contacts;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ListAdapter;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 
 public class ContactsActivity extends ListActivity {
-	
+
+	public static final String LOOKUP_KEY = "com.vd.cursoractivity.LOOKUP_KEY";
+	public static final String CONTACT_ID = "com.vd.cursoractivity.CONTACT_ID";
+	Contact[] mContacts = new Contact[0];
 	Cursor mCursor;
-	Uri mUri = ContactsContract.RawContacts.CONTENT_URI;
-	String[] mProjection = {
-			ContactsContract.RawContacts._ID,
-			ContactsContract.RawContacts.ACCOUNT_NAME,
-			ContactsContract.RawContacts.ACCOUNT_TYPE
-			//ContactsContract.Data.DISPLAY_NAME_SOURCE
-	};
-	String mSelectionClause = null;
-	String[] mSelectionArgs = null;
-	String mSortOrder = Contacts.DISPLAY_NAME;
-	
-	String[] mColumns =
-		{
-			ContactsContract.RawContacts.ACCOUNT_NAME,
-			ContactsContract.RawContacts.ACCOUNT_TYPE
-			//ContactsContract.Data.DISPLAY_NAME_SOURCE
-		};
-	// Defines a list of View IDs that will receive the Cursor columns for each row
-	int[] mItems = { android.R.id.text1, android.R.id.text2};
-	
-	String mGroupName;
-	String mAccountName;
-	
+	Uri mUri = ContactsContract.Data.CONTENT_URI;
+	String[] mProjection = { ContactsContract.Data._ID,
+			ContactsContract.Data.RAW_CONTACT_ID, ContactsContract.Data.DATA1,
+			ContactsContract.Data.MIMETYPE,
+			ContactsContract.CommonDataKinds.GroupMembership.DISPLAY_NAME,
+			ContactsContract.CommonDataKinds.GroupMembership.LOOKUP_KEY,
+			ContactsContract.CommonDataKinds.GroupMembership.CONTACT_ID};
+	String mSelectionClause = ContactsContract.Data.MIMETYPE
+			+ " = \""
+			+ ContactsContract.CommonDataKinds.GroupMembership.CONTENT_ITEM_TYPE
+			+ "\"" + " AND "
+			+ ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID
+			+ " = ?";
+	String[] mSelectionArgs = { "" };
+	String mSortOrder = ContactsContract.CommonDataKinds.GroupMembership.DISPLAY_NAME;
+
+	String[] mColumns = { ContactsContract.Data.RAW_CONTACT_ID,
+			ContactsContract.Data.DATA1, ContactsContract.Data.MIMETYPE,
+			ContactsContract.CommonDataKinds.GroupMembership.DISPLAY_NAME,
+			ContactsContract.CommonDataKinds.GroupMembership.LOOKUP_KEY,
+			ContactsContract.CommonDataKinds.GroupMembership.CONTACT_ID };
+	// Defines a list of View IDs that will receive the Cursor columns for each
+	// row
+	int[] mItems = { R.id.textView1, R.id.tvName, R.id.textView3,
+			R.id.textView4, R.id.tvId };
+
+	// String mGroupID;
+	// String mAccountName;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.activity_main);
 
 		Intent intent = getIntent();
-		mGroupName = intent.getStringExtra("EXTRA_GROUP");
-		mAccountName = intent.getStringExtra("EXTRA_ACCOUNT");
+		mSelectionArgs[0] = intent.getStringExtra(GroupsActivity.GROUP_ID);
+		//mAccountName = intent.getStringExtra("EXTRA_ACCOUNT");
 
 		ContentResolver lResolver = getContentResolver();
 		mCursor = lResolver.query(mUri, mProjection, mSelectionClause, mSelectionArgs, mSortOrder, null);
-		// Now create a new list adapter bound to the cursor.
-	    // SimpleListAdapter is designed for binding to a Cursor.
-	    ListAdapter adapter = new SimpleCursorAdapter(
-	    		getApplicationContext(), // Context.
-	            android.R.layout.two_line_list_item,  // Specify the row template to use (here, two columns bound to the two retrieved cursor rows).
-	            mCursor,                                              // Pass in the cursor to bind to.
-	            mColumns,           // Array of cursor columns to bind to.
-	            mItems,
-	            0);  // Parallel array of which template objects to bind to those columns.
+		
+		SortedSet<Contact> lContacts;
+		lContacts = new TreeSet<Contact>();
+		if (mCursor.getCount() > 0){
+			mCursor.moveToPosition(-1);
+			while (mCursor.moveToNext()) {
+				Contact lContact = new Contact(
+						mCursor.getInt(mCursor.getColumnIndex(ContactsContract.CommonDataKinds.GroupMembership.CONTACT_ID)),
+						mCursor.getString(mCursor.getColumnIndex(ContactsContract.CommonDataKinds.GroupMembership.LOOKUP_KEY)), 
+						mCursor.getString(mCursor.getColumnIndex(ContactsContract.CommonDataKinds.GroupMembership.DISPLAY_NAME))
+						);
+				lContacts.add(lContact);
+			}
+			mContacts = (Contact[]) lContacts.toArray(new Contact[0]);
+		}
+
+		ArrayAdapter<Contact> adapter = new ArrayAdapter<Contact>(
+	    		this,
+	    		android.R.layout.simple_list_item_1,
+	    		mContacts);
 
 	    ListView lListView = getListView();// (ListView) findViewById(R.id.listViewGroups);
 	    // Bind to our new adapter.
@@ -68,40 +87,10 @@ public class ContactsActivity extends ListActivity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		Intent intent = new Intent(this, RawContactsActivity.class);
+		intent.putExtra(CONTACT_ID, mContacts[position].Id);
+		intent.putExtra(LOOKUP_KEY, mContacts[position].LookupKey);
+		startActivity(intent);
 	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-//	/**
-//	 * A placeholder fragment containing a simple view.
-//	 */
-//	public static class PlaceholderFragment extends Fragment {
-//
-//		public PlaceholderFragment() {
-//		}
-//
-//		@Override
-//		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//				Bundle savedInstanceState) {
-//			View rootView = inflater.inflate(R.layout.fragment_main, container,
-//					false);
-//			return rootView;
-//		}
-//	}
-
 }
