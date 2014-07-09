@@ -43,7 +43,7 @@ public class ContactsActivity extends ListActivity {
 			ContactsContract.CommonDataKinds.GroupMembership.CONTACT_ID };
 	// Defines a list of View IDs that will receive the Cursor columns for each
 	// row
-	int[] mItems = { R.id.textView1, R.id.tvName, R.id.textView3,
+	int[] mItems = { R.id.tvAccountName, R.id.tvName, R.id.textView3,
 			R.id.textView4, R.id.tvId };
 
 	// String mGroupID;

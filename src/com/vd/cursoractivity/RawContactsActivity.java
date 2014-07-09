@@ -1,21 +1,19 @@
 package com.vd.cursoractivity;
 
-import com.vd.cursoractivity.RawContact.Phone;
-
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.vd.cursoractivity.RawContact.Phone;
 
 public class RawContactsActivity extends Activity{
 	RawContact mContact = new RawContact();
