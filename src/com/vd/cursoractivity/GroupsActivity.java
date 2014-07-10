@@ -38,7 +38,7 @@ public class GroupsActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		
 		Intent intent = getIntent();
-		mSelectionArgs[0] = intent.getStringExtra(AccountTypesActivity.ACCOUNT_TYPE);
+		mSelectionArgs[0] = intent.getStringExtra(AccountsActivity.ACCOUNT_TYPE);
 		mSelectionArgs[1] = intent.getStringExtra(AccountNamesActivity.ACCOUNT_NAME);
 		
 		ContentResolver lResolver = getContentResolver();

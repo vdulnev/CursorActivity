@@ -32,4 +32,14 @@
         android:text="Small Text"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
+    <TextView
+        android:id="@+id/tvAccountsCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvAccountType"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="26dp"
+        android:text="666"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
 </RelativeLayout>

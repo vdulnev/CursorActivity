@@ -3,6 +3,7 @@ package com.vd.cursoractivity;
 public class Account {
 	AccountType type;
 	String name;
+	Integer count;
 	
 	@Override
 	public String toString() {

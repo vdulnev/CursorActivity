@@ -24,11 +24,15 @@ public class AccountsListAdapter extends ArrayAdapter<Account> {
 		Account account = getItem(position);
 		ImageView ivIcon = (ImageView) view.findViewById(R.id.ivIcon);
 		ivIcon.setImageDrawable(account.type.icon);
-		TextView tvName = (TextView) view.findViewById(R.id.tvAccountName);
-		tvName.setText(account.name);
-		TextView tvType = (TextView) view.findViewById(R.id.tvAccountType);
-		tvType.setText(account.type.name);
+		setTextforView(account.name, view, R.id.tvAccountName);
+		setTextforView(account.type.name, view, R.id.tvAccountType);
+		setTextforView(account.count.toString(), view, R.id.tvAccountsCount);		
 		return view;
+	}
+	
+	private void setTextforView(String text, View view, Integer id){
+		TextView lTView = (TextView) view.findViewById(id);
+		lTView.setText(text);		
 	}
 
 	
