@@ -3,16 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ImageView
-        android:id="@+id/ivIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="18dp"
-        android:src="@drawable/ic_launcher" />
-
     <TextView
         android:id="@+id/tvAccountName"
         android:layout_width="wrap_content"
@@ -41,5 +31,15 @@
         android:layout_marginRight="26dp"
         android:text="666"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="19dp"
+        android:src="@drawable/ic_launcher" />
 
 </RelativeLayout>

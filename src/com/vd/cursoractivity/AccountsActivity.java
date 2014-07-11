@@ -5,9 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 public class AccountsActivity extends Activity implements AccountsFragment.Callbacks{
-	public static String ACCOUNT_TYPE = "com.vd.cursoractivity.account_type";
-	public static String ACCOUNT_NAME = "com.vd.cursoractivity.account_name";
-		
+	public static final String GROUP_ID = "com.vd.cursoractivity.group_id";
+			
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -15,10 +14,9 @@ public class AccountsActivity extends Activity implements AccountsFragment.Callb
 	}
 
 	@Override
-	public void onItemSelected(Account account) {
-		Intent intent = new Intent(this, GroupsActivity.class);
-		intent.putExtra(ACCOUNT_TYPE, account.type.name);
-		intent.putExtra(ACCOUNT_NAME, account.name);
+	public void onItemSelected(Group group) {
+		Intent intent = new Intent(this, ContactsActivity.class);
+		intent.putExtra(GROUP_ID, group.id.toString());
 		startActivity(intent);
 	}
 }

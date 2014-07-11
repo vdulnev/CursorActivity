@@ -39,7 +39,7 @@ public class AccountNamesActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		
 		Intent intent = getIntent();
-		mSelectionArgs[0] = intent.getStringExtra(AccountsActivity.ACCOUNT_TYPE);
+		//mSelectionArgs[0] = intent.getStringExtra(AccountsActivity.ACCOUNT_TYPE);
 		
 		ContentResolver lResolver = getContentResolver();
 		mCursor = lResolver.query(mUri, mProjection, mSelectionClause, mSelectionArgs, mSortOrder, null);
@@ -65,7 +65,7 @@ public class AccountNamesActivity extends ListActivity {
 		String lAccount = (String)l.getAdapter().getItem(position);
 		Intent intent = new Intent(this, GroupsActivity.class);
 		intent.putExtra(ACCOUNT_NAME, lAccount);
-		intent.putExtra(AccountsActivity.ACCOUNT_TYPE, mSelectionArgs[0]);
+		//intent.putExtra(AccountsActivity.ACCOUNT_TYPE, mSelectionArgs[0]);
 		startActivity(intent);
 	}
 }
