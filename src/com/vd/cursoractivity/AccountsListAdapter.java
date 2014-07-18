@@ -29,9 +29,21 @@ public class AccountsListAdapter extends BaseExpandableListAdapter {
 		this.accounts = accounts;
 	}
 
-	private void setTextforView(String text, View view, Integer id){
-		TextView lTView = (TextView) view.findViewById(id);
-		lTView.setText(text);		
+	private void setCountforGroup(String name, Integer count, View view, Integer nameId, Integer countId){
+		TextView tv = (TextView) view.findViewById(nameId);
+		tv.setText(name);	
+		if (count == 0){
+			tv.setTextColor(view.getResources().getColor(R.color.gray));
+		} else {
+			tv.setTextColor(view.getResources().getColor(R.color.black));
+		}
+		tv = (TextView) view.findViewById(countId);
+		tv.setText(count == -1 ? "" : count.toString());	
+		if (count == 0){
+			tv.setTextColor(view.getResources().getColor(R.color.gray));
+		} else {
+			tv.setTextColor(view.getResources().getColor(R.color.black));
+		}
 	}
 
 	@Override
@@ -49,9 +61,10 @@ public class AccountsListAdapter extends BaseExpandableListAdapter {
 			ViewGroup arg4) {
 		View view = arg3;
 		if (view == null){
-			view = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, null);
+			view = LayoutInflater.from(getContext()).inflate(R.layout.group_layout, null);
 		}
-		setTextforView(getAccounts()[arg0].getGroups().get(arg1).getName(), view, android.R.id.text1);
+		Integer lCount = getAccounts()[arg0].getGroups().get(arg1).getCount();
+		setCountforGroup(getAccounts()[arg0].getGroups().get(arg1).getName(), lCount, view, R.id.tvGroupName, R.id.tvGroupCount);
 		return view;
 	}
 
@@ -98,8 +111,12 @@ public class AccountsListAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public boolean isChildSelectable(int arg0, int arg1) {
-		// TODO Auto-generated method stub
-		return true;
+		return !(getAccounts()[arg0].getGroups().get(arg1).getCount() == 0);
+	}
+	
+	private void setTextforView(String text, View view, Integer id){
+		TextView lTView = (TextView) view.findViewById(id);
+		lTView.setText(text);		
 	}
 
 	

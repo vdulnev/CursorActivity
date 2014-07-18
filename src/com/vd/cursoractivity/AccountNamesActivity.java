@@ -38,7 +38,7 @@ public class AccountNamesActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		Intent intent = getIntent();
+		//Intent intent = getIntent();
 		//mSelectionArgs[0] = intent.getStringExtra(AccountsActivity.ACCOUNT_TYPE);
 		
 		ContentResolver lResolver = getContentResolver();

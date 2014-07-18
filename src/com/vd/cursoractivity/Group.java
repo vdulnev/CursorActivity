@@ -5,9 +5,10 @@ public class Group {
 	String name;
 	Integer count;
 	
-	public Group(Integer anId, String aName){
+	public Group(Integer anId, String aName, Integer aCount){
 		id = anId;
 		name = aName;
+		count = aCount;
 	}
 
 	public Integer getId() {

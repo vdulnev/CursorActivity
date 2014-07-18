@@ -26,15 +26,12 @@ public class AccountsFragment extends Fragment implements ExpandableListView.OnC
 	private Callbacks mCallbacks = sDummyCallbacks;
     private static Callbacks sDummyCallbacks = new Callbacks() {
         @Override
-        public void onItemSelected(Group group) {
+        public void onItemSelected(Group group, Account account) {
         }
     };	
     
 	public interface Callbacks {
-        /**
-         * Callback for when an item has been selected.
-         */
-        public void onItemSelected(Group group);  
+        public void onItemSelected(Group group, Account account);  
 	}
 	
     @Override
@@ -114,11 +111,12 @@ public class AccountsFragment extends Fragment implements ExpandableListView.OnC
 	
 	private List<Group> getGroups(String accountType, String accountName){
 		List<Group> list = new ArrayList<Group>();
-		Uri lUri = ContactsContract.Groups.CONTENT_URI;
+		Uri lUri = ContactsContract.Groups.CONTENT_SUMMARY_URI;
 		String[] lProjection = {
 				ContactsContract.Groups._ID,
 				ContactsContract.Groups.ACCOUNT_TYPE,
-				ContactsContract.Groups.TITLE
+				ContactsContract.Groups.TITLE,
+				ContactsContract.Groups.SUMMARY_COUNT
 		};
 		String lSelectionClause = 
 				ContactsContract.Groups.ACCOUNT_TYPE + " = \"" + accountType + 
@@ -129,13 +127,14 @@ public class AccountsFragment extends Fragment implements ExpandableListView.OnC
 		ContentResolver lResolver = getActivity().getContentResolver();
 		Cursor lCursor = lResolver.query(lUri, lProjection, lSelectionClause, lSelectionArgs, lSortOrder, null);
 		if (lCursor.getCount() > 0){
-			Group lGroup = new Group(Integer.valueOf(-1), getResources().getText(R.string.all_items).toString());
+			Group lGroup = new Group(Integer.valueOf(-1), getResources().getText(R.string.all_items).toString(), Integer.valueOf(-1));
 			list.add(lGroup);
 			lCursor.moveToPosition(-1);
 			while (lCursor.moveToNext()) {
 				lGroup = new Group(
 						lCursor.getInt(lCursor.getColumnIndex(ContactsContract.Groups._ID)),
-						lCursor.getString(lCursor.getColumnIndex(ContactsContract.Groups.TITLE)));
+						lCursor.getString(lCursor.getColumnIndex(ContactsContract.Groups.TITLE)),
+						lCursor.getInt(lCursor.getColumnIndex(ContactsContract.Groups.SUMMARY_COUNT)));
 				list.add(lGroup);
 			}
 		}
@@ -146,7 +145,7 @@ public class AccountsFragment extends Fragment implements ExpandableListView.OnC
 	@Override
 	public boolean onChildClick(ExpandableListView arg0, View arg1, int arg2,
 			int arg3, long arg4) {
-		mCallbacks.onItemSelected(adapter.accounts[arg2].groups.get(arg3));
+		mCallbacks.onItemSelected(adapter.accounts[arg2].groups.get(arg3), adapter.accounts[arg2]);
 		return true;
 	}	
 }
