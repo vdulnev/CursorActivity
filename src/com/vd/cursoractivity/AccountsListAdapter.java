@@ -97,9 +97,9 @@ public class AccountsListAdapter extends BaseExpandableListAdapter {
 		Account account = accounts[arg0];
 		ImageView ivIcon = (ImageView) view.findViewById(R.id.ivIcon);
 		ivIcon.setImageDrawable(account.type.icon);
-		setTextforView(account.name, view, R.id.tvAccountName);
-		setTextforView(account.type.name, view, R.id.tvAccountType);
-		setTextforView(account.count.toString(), view, R.id.tvAccountsCount);		
+		Utils.setTextforView(account.name, view, R.id.tvAccountName);
+		Utils.setTextforView(account.type.name, view, R.id.tvAccountType);
+		Utils.setTextforView(account.count.toString(), view, R.id.tvAccountsCount);		
 		return view;
 	}
 
@@ -112,12 +112,5 @@ public class AccountsListAdapter extends BaseExpandableListAdapter {
 	@Override
 	public boolean isChildSelectable(int arg0, int arg1) {
 		return !(getAccounts()[arg0].getGroups().get(arg1).getCount() == 0);
-	}
-	
-	private void setTextforView(String text, View view, Integer id){
-		TextView lTView = (TextView) view.findViewById(id);
-		lTView.setText(text);		
-	}
-
-	
+	}	
 }

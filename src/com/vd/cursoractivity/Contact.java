@@ -1,14 +1,21 @@
 package com.vd.cursoractivity;
 
+
 public class Contact implements Comparable<Contact>{
 	Integer Id;
 	String LookupKey;
 	String DisplayName;
+	Integer count;
 	
-	public Contact(Integer anId, String anLookupKey, String aDisplayName){
+	public Integer getCount() {
+		return count;
+	}
+
+	public Contact(Integer anId, String anLookupKey, String aDisplayName, Integer aCount){
 		Id = anId;
 		LookupKey = anLookupKey;
 		DisplayName = aDisplayName;
+		count = aCount;
 	}
 	
 	public Integer getId() {
@@ -33,6 +40,7 @@ public class Contact implements Comparable<Contact>{
 	public void setDisplayName(String displayName) {
 		DisplayName = displayName;
 	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Contact) {
@@ -44,7 +52,8 @@ public class Contact implements Comparable<Contact>{
 	}
 	@Override
 	public String toString() {
-		return DisplayName;
+		String result = DisplayName + ": " + String.valueOf(getCount());
+		return result;
 	}
 	@Override
 	public int compareTo(Contact another) {

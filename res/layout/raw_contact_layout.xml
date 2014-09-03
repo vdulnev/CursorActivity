@@ -188,8 +188,8 @@
 
     <ListView
         android:id="@+id/lvPhones"
-        android:layout_width="576dp"
-        android:layout_height="72dp"
+        android:layout_width="133dp"
+        android:layout_height="19dp"
         android:layout_column="1"
         android:layout_gravity="left|top"
         android:layout_row="17" >
@@ -251,5 +251,13 @@
         android:layout_gravity="right|center_vertical"
         android:layout_row="1"
         android:text="Name" />
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="95dp"
+        android:layout_height="31dp"
+        android:layout_column="0"
+        android:layout_gravity="left|top"
+        android:layout_row="17" />
 
 </GridLayout>

@@ -7,123 +7,22 @@ import android.graphics.Bitmap;
 import android.provider.ContactsContract;
 
 public class RawContact {
-	public Integer getmId() {
-		return mId;
-	}
-
-	public void setmId(Integer mId) {
-		this.mId = mId;
-	}
-
-	public String getmStructuredName() {
-		return mStructuredName;
-	}
-
-	public void setmStructuredName(String mStructuredName) {
-		this.mStructuredName = mStructuredName;
-	}
-
-	public List<Phone> getmPhones() {
-		return mPhones;
-	}
-
-	public void setmPhones(List<Phone> mPhones) {
-		this.mPhones = mPhones;
-	}
-
-	public List<Email> getmEmails() {
-		return mEmails;
-	}
-
-	public void setmEmails(List<Email> mEmails) {
-		this.mEmails = mEmails;
-	}
-
-	public Photo getmPhoto() {
-		return mPhoto;
-	}
-
-	public void setmPhoto(Photo mPhoto) {
-		this.mPhoto = mPhoto;
-	}
-
-	public Organization getmOrganization() {
-		return mOrganization;
-	}
-
-	public void setmOrganization(Organization mOrganization) {
-		this.mOrganization = mOrganization;
-	}
-
-	public String getmNote() {
-		return mNote;
-	}
-
-	public void setmNote(String mNote) {
-		this.mNote = mNote;
-	}
-
-	public List<StructuredPostal> getmStructuredPostals() {
-		return mStructuredPostals;
-	}
-
-	public void setmStructuredPostals(List<StructuredPostal> mStructuredPostals) {
-		this.mStructuredPostals = mStructuredPostals;
-	}
-
-	public List<Group> getmGroups() {
-		return mGroups;
-	}
-
-	public void setmGroups(List<Group> mGroups) {
-		this.mGroups = mGroups;
-	}
-
-	public List<WebSite> getmWebSites() {
-		return mWebSites;
-	}
-
-	public void setmWebSites(List<WebSite> mWebSites) {
-		this.mWebSites = mWebSites;
-	}
-
-	public List<Event> getmEvents() {
-		return mEvents;
-	}
-
-	public void setmEvents(List<Event> mEvents) {
-		this.mEvents = mEvents;
-	}
-
-	public List<Relation> getmRelations() {
-		return mRelations;
-	}
-
-	public void setmRelations(List<Relation> mRelations) {
-		this.mRelations = mRelations;
-	}
-
-	public SipAddress getmSipAddress() {
-		return mSipAddress;
-	}
-
-	public void setmSipAddress(SipAddress mSipAddress) {
-		this.mSipAddress = mSipAddress;
-	}
-
-	Integer 				mId;
-	String 					mStructuredName;
-	List<Phone> 			mPhones = new ArrayList<RawContact.Phone>();
-	List<Email>				mEmails = new ArrayList<RawContact.Email>();
-	Photo					mPhoto;
-	Organization 			mOrganization = new Organization();
-	String					mNote;
-	List<StructuredPostal>	mStructuredPostals = new ArrayList<RawContact.StructuredPostal>();
-	List<Group>				mGroups = new ArrayList<RawContact.Group>();
-	List<WebSite>			mWebSites = new ArrayList<RawContact.WebSite>();
-	List<Event>				mEvents = new ArrayList<RawContact.Event>();
-	List<Relation>			mRelations = new ArrayList<RawContact.Relation>();
-	SipAddress				mSipAddress;
+	
+	Integer 				id;
+	String 					structuredName;
+	String					accountName;
+	String					accountType;
+	List<Phone> 			phones = new ArrayList<RawContact.Phone>();
+	List<Email>				emails = new ArrayList<RawContact.Email>();
+	Photo					photo;
+	Organization 			organization = new Organization();
+	String					note;
+	List<StructuredPostal>	structuredPostals = new ArrayList<RawContact.StructuredPostal>();
+	List<Group>				groups = new ArrayList<RawContact.Group>();
+	List<WebSite>			webSites = new ArrayList<RawContact.WebSite>();
+	List<Event>				events = new ArrayList<RawContact.Event>();
+	List<Relation>			relations = new ArrayList<RawContact.Relation>();
+	SipAddress				sipAddress;
 	
 	class Phone {
 		String 	Number;
@@ -318,6 +217,66 @@ public class RawContact {
 		String	Region;
 		String	Postcode;
 		String	Country;
+		public String getFormatted_Address() {
+			return Formatted_Address;
+		}
+		public void setFormatted_Address(String formatted_Address) {
+			Formatted_Address = formatted_Address;
+		}
+		public Integer getType() {
+			return Type;
+		}
+		public void setType(Integer type) {
+			Type = type;
+		}
+		public String getLabel() {
+			return Label;
+		}
+		public void setLabel(String label) {
+			Label = label;
+		}
+		public String getStreet() {
+			return Street;
+		}
+		public void setStreet(String street) {
+			Street = street;
+		}
+		public String getPOBox() {
+			return POBox;
+		}
+		public void setPOBox(String pOBox) {
+			POBox = pOBox;
+		}
+		public String getNeighborhood() {
+			return Neighborhood;
+		}
+		public void setNeighborhood(String neighborhood) {
+			Neighborhood = neighborhood;
+		}
+		public String getCity() {
+			return City;
+		}
+		public void setCity(String city) {
+			City = city;
+		}
+		public String getRegion() {
+			return Region;
+		}
+		public void setRegion(String region) {
+			Region = region;
+		}
+		public String getPostcode() {
+			return Postcode;
+		}
+		public void setPostcode(String postcode) {
+			Postcode = postcode;
+		}
+		public String getCountry() {
+			return Country;
+		}
+		public void setCountry(String country) {
+			Country = country;
+		}
 	}
 	
 	class Group {
@@ -329,23 +288,303 @@ public class RawContact {
 		String 	Url;
 		Integer	Type;
 		String	Label;
+		
+		public String getTypeAsString(){
+			switch (Type){
+			case ContactsContract.CommonDataKinds.BaseTypes.TYPE_CUSTOM:
+				return Label;
+			case ContactsContract.CommonDataKinds.Website.TYPE_HOMEPAGE:
+				return "Homepage";
+			case ContactsContract.CommonDataKinds.Website.TYPE_BLOG:
+				return "Blog";
+			case ContactsContract.CommonDataKinds.Website.TYPE_PROFILE:
+				return "Profile";
+			case ContactsContract.CommonDataKinds.Website.TYPE_HOME:
+				return "Home";
+			case ContactsContract.CommonDataKinds.Website.TYPE_WORK:
+				return "Work";
+			case ContactsContract.CommonDataKinds.Website.TYPE_FTP:
+				return "Ftp";
+			case ContactsContract.CommonDataKinds.Website.TYPE_OTHER:
+				return "Other";
+			default:
+				return "Unknown";
+			}
+		}
 	}
 	
 	class Event {
 		String 	StartDate;
 		Integer	Type;
 		String	Label;
+		
+		public String getTypeAsString(){
+			switch (Type){
+			case ContactsContract.CommonDataKinds.BaseTypes.TYPE_CUSTOM:
+				return Label;
+			case ContactsContract.CommonDataKinds.Event.TYPE_ANNIVERSARY:
+				return "Anniversary";
+			case ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY:
+				return "Birthday";
+			case ContactsContract.CommonDataKinds.Event.TYPE_OTHER:
+				return "Other";
+			default:
+				return "Unknown";
+			}
+		}
+
+		public String getStartDate() {
+			return StartDate;
+		}
+
+		public void setStartDate(String startDate) {
+			StartDate = startDate;
+		}
+
+		public Integer getType() {
+			return Type;
+		}
+
+		public void setType(Integer type) {
+			Type = type;
+		}
+
+		public String getLabel() {
+			return Label;
+		}
+
+		public void setLabel(String label) {
+			Label = label;
+		}
 	}
 	
 	class Relation {
 		String 	Name;
 		Integer	Type;
 		String	Label;
+		
+		public String getName() {
+			return Name;
+		}
+		public void setName(String name) {
+			Name = name;
+		}
+		public Integer getType() {
+			return Type;
+		}
+		public void setType(Integer type) {
+			Type = type;
+		}
+		public String getLabel() {
+			return Label;
+		}
+		public void setLabel(String label) {
+			Label = label;
+		}
+		
+		public String getTypeAsString() {
+			switch (Type) {
+			case ContactsContract.CommonDataKinds.BaseTypes.TYPE_CUSTOM:
+				return Label;
+			case ContactsContract.CommonDataKinds.Relation.TYPE_ASSISTANT:
+				return "Assistant";
+			case ContactsContract.CommonDataKinds.Relation.TYPE_BROTHER:
+				return "Brother";
+			case ContactsContract.CommonDataKinds.Relation.TYPE_CHILD:
+				return "Child";
+			case ContactsContract.CommonDataKinds.Relation.TYPE_DOMESTIC_PARTNER:
+				return "Domestic partner";
+			case ContactsContract.CommonDataKinds.Relation.TYPE_FATHER:
+				return "Father";
+			case ContactsContract.CommonDataKinds.Relation.TYPE_FRIEND:
+				return "Friend";
+			case ContactsContract.CommonDataKinds.Relation.TYPE_MANAGER:
+				return "Manager";
+			case ContactsContract.CommonDataKinds.Relation.TYPE_MOTHER:
+				return "Mother";
+			case ContactsContract.CommonDataKinds.Relation.TYPE_PARENT:
+				return "Parent";
+			case ContactsContract.CommonDataKinds.Relation.TYPE_PARTNER:
+				return "Partner";
+			case ContactsContract.CommonDataKinds.Relation.TYPE_REFERRED_BY:
+				return "Referred by";
+			case ContactsContract.CommonDataKinds.Relation.TYPE_RELATIVE:
+				return "Relative";
+			case ContactsContract.CommonDataKinds.Relation.TYPE_SISTER:
+				return "Sister";
+			case ContactsContract.CommonDataKinds.Relation.TYPE_SPOUSE:
+				return "Spouse";
+			default:
+				return "Unknown";
+			}
+		}
 	}
 	
 	class SipAddress {
 		String	SipAddress;
 		Integer	Type;
 		String	Label;
+		
+		public String getSipAddress() {
+			return SipAddress;
+		}
+
+
+
+		public void setSipAddress(String sipAddress) {
+			SipAddress = sipAddress;
+		}
+
+
+
+		public Integer getType() {
+			return Type;
+		}
+
+
+
+		public void setType(Integer type) {
+			Type = type;
+		}
+
+
+
+		public String getLabel() {
+			return Label;
+		}
+
+
+
+		public void setLabel(String label) {
+			Label = label;
+		}
+
+
+
+		public String getTypeAsString(){
+			switch(Type){
+			case ContactsContract.CommonDataKinds.BaseTypes.TYPE_CUSTOM:
+				return "Custom";
+			case ContactsContract.CommonDataKinds.SipAddress.TYPE_HOME:
+				return "Home";
+			case ContactsContract.CommonDataKinds.SipAddress.TYPE_OTHER:
+				return "Other";
+			case ContactsContract.CommonDataKinds.SipAddress.TYPE_WORK:
+				return "Work";
+			default:
+				return "Unknown";
+			}
+		}
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getStructuredName() {
+		return structuredName;
+	}
+
+	public void setStructuredName(String structuredName) {
+		this.structuredName = structuredName;
+	}
+
+	public List<Phone> getPhones() {
+		return phones;
+	}
+
+	public void setPhones(List<Phone> phones) {
+		this.phones = phones;
+	}
+
+	public List<Email> getEmails() {
+		return emails;
+	}
+
+	public void setEmails(List<Email> emails) {
+		this.emails = emails;
+	}
+
+	public Photo getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(Photo photo) {
+		this.photo = photo;
+	}
+
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public List<StructuredPostal> getStructuredPostals() {
+		return structuredPostals;
+	}
+
+	public void setStructuredPostals(List<StructuredPostal> structuredPostals) {
+		this.structuredPostals = structuredPostals;
+	}
+
+	public List<Group> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<Group> groups) {
+		this.groups = groups;
+	}
+
+	public List<WebSite> getWebSites() {
+		return webSites;
+	}
+
+	public void setWebSites(List<WebSite> webSites) {
+		this.webSites = webSites;
+	}
+
+	public List<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(List<Event> events) {
+		this.events = events;
+	}
+
+	public List<Relation> getRelations() {
+		return relations;
+	}
+
+	public void setRelations(List<Relation> relations) {
+		this.relations = relations;
+	}
+
+	public SipAddress getSipAddress() {
+		return sipAddress;
+	}
+
+	public void setSipAddress(SipAddress sipAddress) {
+		this.sipAddress = sipAddress;
+	}
+
+	@Override
+	public String toString() {
+		return "RawContact [structuredName=" + structuredName
+				+ ", accountName=" + accountName + ", accountType="
+				+ accountType + "]";
 	}
 }

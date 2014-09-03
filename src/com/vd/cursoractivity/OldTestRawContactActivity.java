@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.vd.cursoractivity.RawContact.Phone;
 
-public class RawContactsActivity extends Activity{
+public class OldTestRawContactActivity extends Activity{
 	RawContact mContact = new RawContact();
 	Cursor mCursor;
 	Uri mUri;
@@ -86,10 +86,10 @@ public class RawContactsActivity extends Activity{
 				String lMIMEType = mCursor.getString(mCursor.getColumnIndex(ContactsContract.Contacts.Entity.MIMETYPE));
 				switch (lMIMEType) {
 				case ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE:
-					mContact.setmStructuredName(mCursor.getString(mCursor.getColumnIndex(ContactsContract.Contacts.Entity.DATA1)));
+					mContact.setStructuredName(mCursor.getString(mCursor.getColumnIndex(ContactsContract.Contacts.Entity.DATA1)));
 					break;
 				case ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE:
-					RawContact.Organization lOrg = mContact.getmOrganization();
+					RawContact.Organization lOrg = mContact.getOrganization();
 					lOrg.setCompany(mCursor.getString(mCursor.getColumnIndex(ContactsContract.Contacts.Entity.DATA1)));
 					lOrg.setType(mCursor.getInt(mCursor.getColumnIndex(ContactsContract.Contacts.Entity.DATA2)));
 					lOrg.setLabel(mCursor.getString(mCursor.getColumnIndex(ContactsContract.Contacts.Entity.DATA3)));
@@ -106,7 +106,7 @@ public class RawContactsActivity extends Activity{
 					lPhone.setNumber(mCursor.getString(mCursor.getColumnIndex(ContactsContract.Contacts.Entity.DATA1)));
 					lPhone.setType(mCursor.getInt(mCursor.getColumnIndex(ContactsContract.Contacts.Entity.DATA2)));
 					lPhone.setLabel(mCursor.getString(mCursor.getColumnIndex(ContactsContract.Contacts.Entity.DATA3)));
-					mContact.getmPhones().add(lPhone);
+					mContact.getPhones().add(lPhone);
 					break;
 				case ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE:
 					RawContact.Photo lPhoto = mContact.new Photo();
@@ -115,31 +115,31 @@ public class RawContactsActivity extends Activity{
 					if (lData != null) {
 						lPhoto.Photo = BitmapFactory.decodeByteArray(lData, 0, lData.length);
 					}
-					mContact.mPhoto = lPhoto;
+					mContact.photo = lPhoto;
 				}
 			}
 			//show customers data
-			SetTextForTextView(R.id.tvName, mContact.getmStructuredName());
-			SetTextForTextView(R.id.tvCompany, mContact.getmOrganization().getCompany());
-			SetTextForTextView(R.id.tvOrgType, mContact.getmOrganization().getTypeAsString());
-			SetTextForTextView(R.id.tvOrgLabel, mContact.getmOrganization().getLabel());
-			SetTextForTextView(R.id.tvOrgTitle, mContact.getmOrganization().getTitle());
-			SetTextForTextView(R.id.tvOrgDep, mContact.getmOrganization().getDepartment());
-			SetTextForTextView(R.id.tvOrgJDescr, mContact.getmOrganization().getJob_Description());
-			SetTextForTextView(R.id.tvOrgSymbol, mContact.getmOrganization().getSymbol());
-			SetTextForTextView(R.id.tvOrgPhName, mContact.getmOrganization().getPhonetic_Name());
-			SetTextForTextView(R.id.tvOrgOfficeLocation, mContact.getmOrganization().getOffice_Location());
-			SetTextForTextView(R.id.tvOrgPhNameStyle, mContact.getmOrganization().getPhonetic_Name_Style());
-			SetTextForTextView(R.id.tvNote, mContact.getmNote());
+			SetTextForTextView(R.id.tvName, mContact.getStructuredName());
+			SetTextForTextView(R.id.tvCompany, mContact.getOrganization().getCompany());
+			SetTextForTextView(R.id.tvOrgType, mContact.getOrganization().getTypeAsString());
+			SetTextForTextView(R.id.tvOrgLabel, mContact.getOrganization().getLabel());
+			SetTextForTextView(R.id.tvOrgTitle, mContact.getOrganization().getTitle());
+			SetTextForTextView(R.id.tvOrgDep, mContact.getOrganization().getDepartment());
+			SetTextForTextView(R.id.tvOrgJDescr, mContact.getOrganization().getJob_Description());
+			SetTextForTextView(R.id.tvOrgSymbol, mContact.getOrganization().getSymbol());
+			SetTextForTextView(R.id.tvOrgPhName, mContact.getOrganization().getPhonetic_Name());
+			SetTextForTextView(R.id.tvOrgOfficeLocation, mContact.getOrganization().getOffice_Location());
+			SetTextForTextView(R.id.tvOrgPhNameStyle, mContact.getOrganization().getPhonetic_Name_Style());
+			SetTextForTextView(R.id.tvNote, mContact.getNote());
 			ArrayAdapter<String> lPhonesListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-			for (Phone lPhone : mContact.getmPhones()){
+			for (Phone lPhone : mContact.getPhones()){
 				lPhonesListAdapter.add(lPhone.getTypeAsString() + ": " + lPhone.getNumber());			
 			}
-			if (mContact.mPhoto.Photo != null){
+			if (mContact.photo.Photo != null){
 				ListView lPhones = (ListView) findViewById(R.id.lvPhones);
 				lPhones.setAdapter(lPhonesListAdapter);
 				ImageView livContact = (ImageView) findViewById(R.id.ivContact);
-				livContact.setImageBitmap(mContact.mPhoto.Photo);				
+				livContact.setImageBitmap(mContact.photo.Photo);				
 			}
 		}
 	}

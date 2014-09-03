@@ -51,10 +51,12 @@ public class ContactsActivity extends ListActivity {
 			if (mCursor.getCount() > 0){
 				mCursor.moveToPosition(-1);
 				while (mCursor.moveToNext()) {
+					Integer lContactID = mCursor.getInt(mCursor.getColumnIndex(ContactsContract.RawContacts.CONTACT_ID)); 
 					Contact lContact = new Contact(
-							mCursor.getInt(mCursor.getColumnIndex(ContactsContract.RawContacts.CONTACT_ID)),
+							lContactID,
 							"", 
-							mCursor.getString(mCursor.getColumnIndex(ContactsContract.RawContacts.DISPLAY_NAME_PRIMARY))
+							mCursor.getString(mCursor.getColumnIndex(ContactsContract.RawContacts.DISPLAY_NAME_PRIMARY)),
+							Utils.getRawContactsCount(this, lContactID)
 							);
 					lContacts.add(lContact);
 				}
@@ -84,10 +86,12 @@ public class ContactsActivity extends ListActivity {
 			if (mCursor.getCount() > 0){
 				mCursor.moveToPosition(-1);
 				while (mCursor.moveToNext()) {
+					Integer lContactID = mCursor.getInt(mCursor.getColumnIndex(ContactsContract.CommonDataKinds.GroupMembership.CONTACT_ID));
 					Contact lContact = new Contact(
-							mCursor.getInt(mCursor.getColumnIndex(ContactsContract.CommonDataKinds.GroupMembership.CONTACT_ID)),
+							lContactID,
 							mCursor.getString(mCursor.getColumnIndex(ContactsContract.CommonDataKinds.GroupMembership.LOOKUP_KEY)), 
-							mCursor.getString(mCursor.getColumnIndex(ContactsContract.CommonDataKinds.GroupMembership.DISPLAY_NAME))
+							mCursor.getString(mCursor.getColumnIndex(ContactsContract.CommonDataKinds.GroupMembership.DISPLAY_NAME)),
+							Utils.getRawContactsCount(this, lContactID)
 							);
 					lContacts.add(lContact);
 				}
@@ -107,7 +111,7 @@ public class ContactsActivity extends ListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Intent intent = new Intent(this, RawContactsActivity.class);
+		Intent intent = new Intent(this, TestRawContactsActivity.class);
 		intent.putExtra(CONTACT_ID, mContacts[position].Id);
 		intent.putExtra(LOOKUP_KEY, mContacts[position].LookupKey);
 		startActivity(intent);
